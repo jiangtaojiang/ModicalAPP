@@ -29,9 +29,6 @@ public class MainActivity extends FragmentActivity implements
 	private List<Fragment> mTabs = new ArrayList<Fragment>();
 	private FragmentPagerAdapter mAdapter;
 
-	private String[] mTitles = new String[] { "First Fragment!",
-			"Second Fragment!", "Third Fragment!", "Fourth Fragment!" };
-
 	private List<ChangeColorIconWithTextView> mTabIndicator = new ArrayList<ChangeColorIconWithTextView>();
 
 	@Override
@@ -92,18 +89,25 @@ public class MainActivity extends FragmentActivity implements
 		ChangeColorIconWithTextView two = (ChangeColorIconWithTextView) findViewById(R.id.id_indicator_two);
 		ChangeColorIconWithTextView three = (ChangeColorIconWithTextView) findViewById(R.id.id_indicator_three);
 		ChangeColorIconWithTextView four = (ChangeColorIconWithTextView) findViewById(R.id.id_indicator_four);
+        ChangeColorIconWithTextView five = (ChangeColorIconWithTextView) findViewById(R.id.id_indicator_five);
+        ChangeColorIconWithTextView six = (ChangeColorIconWithTextView) findViewById(R.id.id_indicator_six);
 
 		mTabIndicator.add(one);
 		mTabIndicator.add(two);
 		mTabIndicator.add(three);
-		mTabIndicator.add(four);
+        mTabIndicator.add(four);
+        mTabIndicator.add(five);
+        mTabIndicator.add(six);
 
 		one.setOnClickListener(this);
 		two.setOnClickListener(this);
 		three.setOnClickListener(this);
 		four.setOnClickListener(this);
+        five.setOnClickListener(this);
+        six.setOnClickListener(this);
 
-		one.setIconAlpha(1.0f);
+
+        one.setIconAlpha(1.0f);
 	}
 
 	@Override

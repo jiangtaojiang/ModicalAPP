@@ -96,8 +96,7 @@ public class NotificationsFragment extends Fragment {
 				
 				@Override
 				public void onClick(View v) {
-					
-					notificationTitleField = (EditText) layoutView.findViewById(R.id.EditNotificationTitle);  
+					notificationTitleField = (EditText) layoutView.findViewById(R.id.EditNotificationTitle);
 					String title = notificationTitleField.getText().toString();  
 					notificationDescription = (EditText) layoutView.findViewById(R.id.EditNotificationText);  
 					String notificationText = notificationDescription.getText().toString();  
