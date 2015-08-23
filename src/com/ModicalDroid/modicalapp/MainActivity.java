@@ -1,137 +1,220 @@
 package com.ModicalDroid.modicalapp;
 
-import java.util.Calendar;
-import java.util.Vector;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
+import android.view.Window;
 
 import com.ModicalDroid.modicalpp.R;
 
-import systemManager.SystemManager;
-
-import communicationManager.CommunicationManager;
-
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
+@SuppressLint("NewApi")
 public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener {
+		OnPageChangeListener, OnClickListener
+{
+	private ViewPager mViewPager;
+	private List<Fragment> mTabs = new ArrayList<Fragment>();
+	private FragmentPagerAdapter mAdapter;
+
+	private String[] mTitles = new String[] { "First Fragment!",
+			"Second Fragment!", "Third Fragment!", "Fourth Fragment!" };
+
+	private List<ChangeColorIconWithTextView> mTabIndicator = new ArrayList<ChangeColorIconWithTextView>();
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+		setOverflowShowingAlways();
+		getActionBar().setDisplayShowHomeEnabled(false);
+		mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
+
+		initDatas();
+
+		mViewPager.setAdapter(mAdapter);
+		mViewPager.setOnPageChangeListener(this);
+	}
+
+	private void initDatas()
+	{
+
+        mTabs.add(new ConnectFragment());
+        mTabs.add(new VisualizationFragment());
+        mTabs.add(new ActivityRecognitionFragment());
+        mTabs.add(new NotificationsFragment());
+        mTabs.add(new GuidelinesFragment());
+        mTabs.add(new RemoteStorageFragment());
+
+        mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+
+			@Override
+			public int getCount()
+			{
+				return mTabs.size();
+			}
+
+			@Override
+			public Fragment getItem(int arg0)
+			{
+				return mTabs.get(arg0);
+			}
+		};
+
+		initTabIndicator();
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		//getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	private void initTabIndicator()
+	{
+		ChangeColorIconWithTextView one = (ChangeColorIconWithTextView) findViewById(R.id.id_indicator_one);
+		ChangeColorIconWithTextView two = (ChangeColorIconWithTextView) findViewById(R.id.id_indicator_two);
+		ChangeColorIconWithTextView three = (ChangeColorIconWithTextView) findViewById(R.id.id_indicator_three);
+		ChangeColorIconWithTextView four = (ChangeColorIconWithTextView) findViewById(R.id.id_indicator_four);
+
+		mTabIndicator.add(one);
+		mTabIndicator.add(two);
+		mTabIndicator.add(three);
+		mTabIndicator.add(four);
+
+		one.setOnClickListener(this);
+		two.setOnClickListener(this);
+		three.setOnClickListener(this);
+		four.setOnClickListener(this);
+
+		one.setIconAlpha(1.0f);
+	}
+
+	@Override
+	public void onPageSelected(int arg0)
+	{
+	}
+
+	@Override
+	public void onPageScrolled(int position, float positionOffset,
+			int positionOffsetPixels)
+	{
+		// Log.e("TAG", "position = " + position + " , positionOffset = "
+		// + positionOffset);
+
+		if (positionOffset > 0)
+		{
+			ChangeColorIconWithTextView left = mTabIndicator.get(position);
+			ChangeColorIconWithTextView right = mTabIndicator.get(position + 1);
+
+			left.setIconAlpha(1 - positionOffset);
+			right.setIconAlpha(positionOffset);
+		}
+
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int state)
+	{
+
+	}
+
+	@Override
+    public void onClick(View v) {
+
+        resetOtherTabs();
+
+        switch (v.getId()) {
+            case R.id.id_indicator_one:
+                mTabIndicator.get(0).setIconAlpha(1.0f);
+                mViewPager.setCurrentItem(0, false);
+                break;
+            case R.id.id_indicator_two:
+                mTabIndicator.get(1).setIconAlpha(1.0f);
+                mViewPager.setCurrentItem(1, false);
+                break;
+            case R.id.id_indicator_three:
+                mTabIndicator.get(2).setIconAlpha(1.0f);
+                mViewPager.setCurrentItem(2, false);
+                break;
+            case R.id.id_indicator_four:
+                mTabIndicator.get(3).setIconAlpha(1.0f);
+                mViewPager.setCurrentItem(3, false);
+                break;
+            case R.id.id_indicator_five:
+                mTabIndicator.get(4).setIconAlpha(1.0f);
+                mViewPager.setCurrentItem(4, false);
+                break;
+            case R.id.id_indicator_six:
+                mTabIndicator.get(5).setIconAlpha(1.0f);
+                mViewPager.setCurrentItem(5, false);
+                break;
+        }
+
+    }
 
 	/**
-	 * The serialization (saved instance state) Bundle key representing the
-	 * current tab position.
+	 * 重置其他的Tab
 	 */
-	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-	public SharedPreferences myprefs;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
-		myprefs = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		// Set up the action bar to show tabs.
-		final ActionBar actionBar = getActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		// For each of the sections in the app, add a tab to the action bar.
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_section1)
-				.setTabListener(this));
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_section2)
-				.setTabListener(this));
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_section3)
-				.setTabListener(this));
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_section4)
-				.setTabListener(this));
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_section5)
-				.setTabListener(this));
-		actionBar.addTab(actionBar.newTab().setText(R.string.title_section6)
-				.setTabListener(this));
-	}	
-	
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		// Restore the previously serialized current tab position.
-		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM)) {
-			getActionBar().setSelectedNavigationItem(
-					savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+	private void resetOtherTabs()
+	{
+		for (int i = 0; i < mTabIndicator.size(); i++)
+		{
+			mTabIndicator.get(i).setIconAlpha(0);
 		}
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		// Serialize the current tab position.
-		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getActionBar()
-				.getSelectedNavigationIndex());
-	}
-
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		// Inflate the menu; this adds items to the action bar if it is present.
-////		getMenuInflater().inflate(R.menu.activity_main, menu);
-//		return true;
-//	}
-
-	@Override
-	public void onTabSelected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		
-		switch(tab.getPosition()){
-			case 0: // Connect tab
-				Fragment connectFragment = new ConnectFragment();
-				getSupportFragmentManager().beginTransaction().replace(R.id.container, connectFragment).commit();
-			break;
-			case 1: // Visualization tab
-				Fragment visualizationFragment = new VisualizationFragment();
-				getSupportFragmentManager().beginTransaction().replace(R.id.container, visualizationFragment).commit();
-			break;
-			case 2: // Activity tab
-				Fragment recongnitionFragment = new ActivityRecognitionFragment();
-				getSupportFragmentManager().beginTransaction().replace(R.id.container, recongnitionFragment).commit();
-			break;			
-			case 3: // Notifications tab
-				Fragment NotificationsFragment = new NotificationsFragment();
-				getSupportFragmentManager().beginTransaction().replace(R.id.container, NotificationsFragment).commit();
-			break;
-			case 4: // Guideline tab
-				Fragment guidelinesFragment = new GuidelinesFragment();
-				getSupportFragmentManager().beginTransaction().replace(R.id.container, guidelinesFragment).commit();
-			break;
-			case 5: // Remote Storage
-				Fragment RemoteStorageFragment2 = new RemoteStorageFragment();
-				getSupportFragmentManager().beginTransaction().replace(R.id.container, RemoteStorageFragment2).commit();
-			break;
+	public boolean onMenuOpened(int featureId, Menu menu)
+	{
+		if (featureId == Window.FEATURE_ACTION_BAR && menu != null)
+		{
+			if (menu.getClass().getSimpleName().equals("MenuBuilder"))
+			{
+				try
+				{
+					Method m = menu.getClass().getDeclaredMethod(
+							"setOptionalIconsVisible", Boolean.TYPE);
+					m.setAccessible(true);
+					m.invoke(menu, true);
+				} catch (Exception e)
+				{
+				}
+			}
 		}
-		
+		return super.onMenuOpened(featureId, menu);
 	}
 
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
-
-	@Override
-	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
+	private void setOverflowShowingAlways()
+	{
+		try
+		{
+			// true if a permanent menu key is present, false otherwise.
+			ViewConfiguration config = ViewConfiguration.get(this);
+			Field menuKeyField = ViewConfiguration.class
+					.getDeclaredField("sHasPermanentMenuKey");
+			menuKeyField.setAccessible(true);
+			menuKeyField.setBoolean(config, false);
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 }

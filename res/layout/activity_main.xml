@@ -1,51 +1,84 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:appicon="http://schemas.android.com/apk/res/com.ModicalDroid.modicalpp"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:ignore="MergeRootFrame" >
+    android:orientation="vertical" >
 
-    <TabHost
-        android:id="@android:id/tabhost"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+    <android.support.v4.view.ViewPager
+        android:id="@+id/id_viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </android.support.v4.view.ViewPager>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/tabbg"
+        android:orientation="horizontal" >
 
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-            </TabWidget>
+        <com.ModicalDroid.modicalapp.ChangeColorIconWithTextView
+            android:id="@+id/id_indicator_one"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            appicon:icon1="@drawable/ic_menu_start_conversation"
+            appicon:text="@string/tab_connect"
+            appicon:text_size="12sp" />
 
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+        <com.ModicalDroid.modicalapp.ChangeColorIconWithTextView
+            android:id="@+id/id_indicator_two"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            appicon:icon1="@drawable/ic_menu_friendslist"
+            appicon:text="@string/tab_visual"
+            appicon:text_size="12sp" />
 
-                <LinearLayout
-                    android:id="@+id/tab1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-                </LinearLayout>
+        <com.ModicalDroid.modicalapp.ChangeColorIconWithTextView
+            android:id="@+id/id_indicator_three"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            appicon:icon1="@drawable/ic_menu_emoticons"
+            appicon:text="@string/tab_activity"
+            appicon:text_size="12sp" />
 
-                <LinearLayout
-                    android:id="@+id/tab2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-                </LinearLayout>
+        <com.ModicalDroid.modicalapp.ChangeColorIconWithTextView
+            android:id="@+id/id_indicator_four"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            appicon:icon1="@drawable/ic_menu_allfriends"
+            appicon:text="@string/tab_notify"
+            appicon:text_size="12sp" />
 
-                <LinearLayout
-                    android:id="@+id/tab3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-                </LinearLayout>
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
+        <com.ModicalDroid.modicalapp.ChangeColorIconWithTextView
+            android:id="@+id/id_indicator_five"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            appicon:icon1="@drawable/ic_menu_allfriends"
+            appicon:text="@string/tab_guideline"
+            appicon:text_size="12sp" />
 
-</FrameLayout>
+        <com.ModicalDroid.modicalapp.ChangeColorIconWithTextView
+            android:id="@+id/id_indicator_six"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            appicon:icon1="@drawable/ic_menu_allfriends"
+            appicon:text="@string/tab_storage"
+            appicon:text_size="12sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

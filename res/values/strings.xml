@@ -95,5 +95,11 @@
     
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="tab_connect">connect</string>
+    <string name="tab_visual">visual</string>
+    <string name="tab_activity">activity</string>
+    <string name="tab_notify">notify</string>
+    <string name="tab_guideline">guideline</string>
+    <string name="tab_storage">storage</string>
 
 </resources>
