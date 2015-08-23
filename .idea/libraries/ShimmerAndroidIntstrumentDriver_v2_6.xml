@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ShimmerAndroidIntstrumentDriver_v2.6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ModicalDroid/libs/ShimmerAndroidIntstrumentDriver_v2.6.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
